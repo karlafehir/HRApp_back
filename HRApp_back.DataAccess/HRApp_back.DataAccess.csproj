@@ -21,4 +21,12 @@
       <None Remove="Properties\launchSettings.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\HRApp_back.Models\HRApp_back.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HRApp_back.Models\HRApp_back.Models.csproj" />
+    </ItemGroup>
+
 </Project>

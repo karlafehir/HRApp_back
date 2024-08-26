@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRApp_back", "HRApp_back\HR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRApp_back.DataAccess", "HRApp_back.DataAccess\HRApp_back.DataAccess.csproj", "{23284DE5-D4A4-4317-A8C7-32BF4552C60A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRApp_back.Models", "HRApp_back.Models\HRApp_back.Models.csproj", "{0CEFE1ED-7642-4EEE-88AE-06C614C1AADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{23284DE5-D4A4-4317-A8C7-32BF4552C60A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23284DE5-D4A4-4317-A8C7-32BF4552C60A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23284DE5-D4A4-4317-A8C7-32BF4552C60A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEFE1ED-7642-4EEE-88AE-06C614C1AADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEFE1ED-7642-4EEE-88AE-06C614C1AADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEFE1ED-7642-4EEE-88AE-06C614C1AADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEFE1ED-7642-4EEE-88AE-06C614C1AADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
