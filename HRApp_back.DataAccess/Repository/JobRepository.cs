@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using HRApp_back.DataAccess.Data;
 using HRApp_back.DataAccess.Repository.IRepository;
 using HRApp_back.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRApp_back.DataAccess.Repository;
 
@@ -15,8 +16,10 @@ public class JobRepository : Repository<Job>, IJobRepository
         _context = context;
     }
 
-    public Task<IEnumerable<Job>> GetActiveJobsAsync()
+    public async Task<Job> GetJobWithCandidatesAsync(int jobId)
     {
-        throw new System.NotImplementedException();
+        return await _context.Jobs
+            .Include(j => j.Candidates)
+            .FirstOrDefaultAsync(j => j.Id == jobId);
     }
 }

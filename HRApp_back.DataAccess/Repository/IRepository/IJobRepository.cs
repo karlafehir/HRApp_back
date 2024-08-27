@@ -6,5 +6,5 @@ namespace HRApp_back.DataAccess.Repository.IRepository;
 
 public interface IJobRepository : IRepository<Job>
 {
-    Task<IEnumerable<Job>> GetActiveJobsAsync();
+    Task<Job> GetJobWithCandidatesAsync(int jobId);
 }

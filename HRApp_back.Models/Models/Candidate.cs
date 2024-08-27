@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace HRApp_back.Models.Models;
 
@@ -10,6 +12,8 @@ public class Candidate
     public string Email { get; set; }
     public string Phone { get; set; }
     public string ResumeUrl { get; set; }
+    [ForeignKey("Job")]
     public int JobId { get; set; }
+    [JsonIgnore]
     public Job Job { get; set; }
 }

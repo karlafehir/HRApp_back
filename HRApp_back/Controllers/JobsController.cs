@@ -37,11 +37,16 @@ public class JobsController : ControllerBase
     public async Task<ActionResult<Job>> GetJobById(int id)
     {
         var job = await _unitOfWork.Jobs.GetByIdAsync(id);
+        if (job == null) return NotFound();
 
-        if (job == null)
-        {
-            return NotFound();
-        }
+        return Ok(job);
+    }
+    
+    [HttpGet("GetJobByIdWithCandidates/{id}")]
+    public async Task<ActionResult<Job>> GetJobByIdWithCandidates(int id)
+    {
+        var job = await _unitOfWork.Jobs.GetJobWithCandidatesAsync(id);
+        if (job == null) return NotFound();
 
         return Ok(job);
     }
