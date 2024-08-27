@@ -7,5 +7,6 @@ namespace HRApp_back.DataAccess.Repository.IRepository;
 public interface IUnitOfWork : IDisposable
 {
     IJobRepository Jobs { get; }
+    ICandidateRepository Candidates { get; }
     Task<int> SaveAsync();
 }

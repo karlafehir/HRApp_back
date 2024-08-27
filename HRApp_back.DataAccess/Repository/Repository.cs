@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HRApp_back.DataAccess.Data;
 using HRApp_back.DataAccess.Repository.IRepository;
@@ -17,14 +19,34 @@ public class Repository<T> : IRepository<T> where T : class
         _dbSet = _context.Set<T>();
     }
     
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(string? includeProperties = null)
     {
-        return await _dbSet.ToListAsync();
+        IQueryable<T> query = _dbSet;
+
+        if (includeProperties != null)
+        {
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+
+        return await query.ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T> GetByIdAsync(int id, string? includeProperties = null)
     {
-        return await _dbSet.FindAsync(id);
+        IQueryable<T> query = _dbSet;
+
+        if (includeProperties != null)
+        {
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+
+        return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
     }
 
     public async Task AddAsync(T entity)
@@ -47,3 +69,4 @@ public class Repository<T> : IRepository<T> where T : class
         _dbSet.Remove(entity);
     }
 }
+

@@ -13,5 +13,6 @@ public class ApplicationDbContext : IdentityDbContext
     }
     
     public DbSet<Job> Jobs { get; set; }
+    public DbSet<Candidate> Candidates { get; set; }
     
 }

@@ -8,11 +8,13 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
     public IJobRepository Jobs { get; }
+    public ICandidateRepository Candidates { get; }
     
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
         Jobs = new JobRepository(_context);
+        Candidates = new CandidateRepository(_context);
     }
 
     public async Task<int> SaveAsync()
