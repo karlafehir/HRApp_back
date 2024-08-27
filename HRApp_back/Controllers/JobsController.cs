@@ -25,8 +25,13 @@ public class JobsController : ControllerBase
     }
 
     [HttpPost("AddJob")]
-    public async Task<ActionResult<Job>> PostJob(Job job)
+    public async Task<ActionResult<Job>> CreateJob(Job job)
     {
+        if (job == null) return BadRequest("Job cannot be null");
+
+        job.PostedDate = DateTime.UtcNow;
+        job.Status = "Open";
+        
         await _unitOfWork.Jobs.AddAsync(job);
         await _unitOfWork.SaveAsync();
 
@@ -56,7 +61,7 @@ public class JobsController : ControllerBase
     {
         if (id != job.Id)
         {
-            return BadRequest();
+            return BadRequest("Job ID mismatch.");
         }
 
         _unitOfWork.Jobs.Update(job);
