@@ -4,6 +4,7 @@ using HRApp_back.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRApp_back.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240924172755_add_employee_table")]
+    partial class add_employee_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,8 +100,6 @@ namespace HRApp_back.DataAccess.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobId");
 
                     b.ToTable("Employees");
                 });
@@ -342,17 +343,6 @@ namespace HRApp_back.DataAccess.Migrations
                 {
                     b.HasOne("HRApp_back.Models.Models.Job", "Job")
                         .WithMany("Candidates")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Job");
-                });
-
-            modelBuilder.Entity("HRApp_back.Models.Models.Employee", b =>
-                {
-                    b.HasOne("HRApp_back.Models.Models.Job", "Job")
-                        .WithMany()
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

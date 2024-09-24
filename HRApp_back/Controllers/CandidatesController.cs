@@ -45,7 +45,7 @@ public class CandidatesController : ControllerBase
         return CreatedAtAction(nameof(GetCandidateById), new { id = candidate.Id }, candidate);
     }
 
-    [HttpPut("UpdateCandidate/{id}")]
+    [HttpPut("UpdateCandidate/{id}")] 
     public async Task<IActionResult> UpdateCandidate(int id, Candidate candidate)
     {
         if (id != candidate.Id)
@@ -86,7 +86,7 @@ public class CandidatesController : ControllerBase
         _unitOfWork.Candidates.Delete(candidate);
         await _unitOfWork.SaveAsync();
 
-        return NoContent();
+        return Ok();
     }
 
     private async Task<bool> CandidateExists(int id)

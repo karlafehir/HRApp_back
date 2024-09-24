@@ -8,5 +8,6 @@ public interface IUnitOfWork : IDisposable
 {
     IJobRepository Jobs { get; }
     ICandidateRepository Candidates { get; }
+    IEmployeeRepository Employees { get; }
     Task<int> SaveAsync();
 }
