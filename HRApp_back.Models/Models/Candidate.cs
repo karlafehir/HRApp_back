@@ -16,4 +16,14 @@ public class Candidate
     public int JobId { get; set; }
     [JsonIgnore]
     public Job Job { get; set; }
+    public CandidateStatus Status { get; set; } = CandidateStatus.NewApplied;
+}
+
+public enum CandidateStatus
+{
+    NewApplied,
+    Shortlisted,
+    Interview,
+    Test,
+    Hired
 }

@@ -16,7 +16,7 @@ public class EmployeeController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    [HttpGet("GetEmployees")]
+    [HttpGet("GetAllEmployees")]
     public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
     {
         var employees = await _unitOfWork.Employees.GetAllAsync(includeProperties: "Job");
