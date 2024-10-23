@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using HRApp_back.DataAccess.Data;
 using HRApp_back.DataAccess.Repository.IRepository;
+using HRApp_back.Models.Models;
 
 namespace HRApp_back.DataAccess.Repository;
 
@@ -10,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public IJobRepository Jobs { get; }
     public ICandidateRepository Candidates { get; }
     public IEmployeeRepository Employees { get; }
+    public IDepartmentRepository Departments { get; }
     
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -17,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
         Jobs = new JobRepository(_context);
         Candidates = new CandidateRepository(_context);
         Employees = new EmployeeRepository(_context);
+        Departments = new DepartmentRepository(_context);
     }
 
     public async Task<int> SaveAsync()

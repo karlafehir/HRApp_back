@@ -9,5 +9,6 @@ public interface IUnitOfWork : IDisposable
     IJobRepository Jobs { get; }
     ICandidateRepository Candidates { get; }
     IEmployeeRepository Employees { get; }
+    IDepartmentRepository Departments { get; }
     Task<int> SaveAsync();
 }

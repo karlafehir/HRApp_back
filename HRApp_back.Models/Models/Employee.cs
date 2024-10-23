@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace HRApp_back.Models.Models;
 
@@ -17,13 +16,18 @@ public class Employee
     public string PhoneNumber { get; set; }
     public DateTime DateOfHire { get; set; }
 
-    // Job and Department
+    // Job
     [ForeignKey("Job")]
     public int JobId { get; set; }
     public Job Job { get; set; }
+
+    // Department
+    // [ForeignKey("Department")]
+    public int? DepartmentId { get; set; } 
+    // public Department Department { get; set; }
     
-    public int DepartmentId { get; set; }
-    public int ManagerId { get; set; }
+    // Manager
+    public int? ManagerId { get; set; }
 
     // Employment Details
     public string JobTitle { get; set; }
