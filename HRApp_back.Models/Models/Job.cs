@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HRApp_back.Models.Models;
 
@@ -10,9 +11,14 @@ public class Job
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public string Department { get; set; }
+        
+    // Foreign key to Department
+    public int DepartmentId { get; set; }
+    [ForeignKey("DepartmentId")]
+    public Department Department { get; set; }
+        
     public DateTime PostedDate { get; set; }
-    public DateTime? ClosingDate { get; set; } 
+    public DateTime? ClosingDate { get; set; }
     public string Status { get; set; }
     public string Location { get; set; }
     public string Priority { get; set; }
