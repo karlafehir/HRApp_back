@@ -13,7 +13,7 @@ public class Job
     public string Description { get; set; }
         
     // Foreign key to Department
-    public int DepartmentId { get; set; }
+    public int? DepartmentId { get; set; }
     [ForeignKey("DepartmentId")]
     public Department Department { get; set; }
         
