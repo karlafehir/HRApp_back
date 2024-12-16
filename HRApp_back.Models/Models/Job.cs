@@ -19,7 +19,9 @@ public class Job
         
     public DateTime PostedDate { get; set; }
     public DateTime? ClosingDate { get; set; }
-    public string Status { get; set; }
+    
+    public JobStatus Status { get; set; } // Enum type
+    
     public string Location { get; set; }
     public string Priority { get; set; }
     public ICollection<Candidate>? Candidates { get; set; } = new List<Candidate>();

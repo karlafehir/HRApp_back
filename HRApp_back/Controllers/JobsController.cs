@@ -30,7 +30,7 @@ public class JobsController : ControllerBase
         if (job == null) return BadRequest("Job cannot be null");
 
         job.PostedDate = DateTime.UtcNow;
-        job.Status = "Open";
+        job.Status = JobStatus.Open;
         
         await _unitOfWork.Jobs.AddAsync(job);
         await _unitOfWork.SaveAsync();
