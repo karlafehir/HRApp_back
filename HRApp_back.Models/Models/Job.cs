@@ -27,3 +27,8 @@ public class Job
     public ICollection<Candidate>? Candidates { get; set; } = new List<Candidate>();
 }
 
+public enum JobStatus
+{
+    Open = 1,
+    Closed = 2
+}
