@@ -20,10 +20,10 @@ public class Job
     public DateTime PostedDate { get; set; }
     public DateTime? ClosingDate { get; set; }
     
-    public JobStatus Status { get; set; } // Enum type
+    public JobStatus Status { get; set; } // Enum 
+    public JobPriority Priority { get; set; } //Enum
     
     public string Location { get; set; }
-    public string Priority { get; set; }
     public ICollection<Candidate>? Candidates { get; set; } = new List<Candidate>();
 }
 
@@ -31,4 +31,11 @@ public enum JobStatus
 {
     Open = 1,
     Closed = 2
+}
+
+public enum JobPriority
+{
+    Low = 1,
+    Medium = 2,
+    High = 3
 }
