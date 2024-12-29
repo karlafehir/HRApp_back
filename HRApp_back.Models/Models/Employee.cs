@@ -22,21 +22,13 @@ public class Employee
     public Job Job { get; set; }
 
     // Department
-    // [ForeignKey("Department")]
     public int? DepartmentId { get; set; } 
-    // public Department Department { get; set; }
-    
-    // Manager
-    public int? ManagerId { get; set; }
 
     // Employment Details
     public string JobTitle { get; set; }
     public decimal Salary { get; set; }
     public string EmploymentStatus { get; set; }
-    
-    // Attendance
-    public int? AnnualLeaveDays { get; set; } = 20;
-    public int? SickLeaveDays { get; set; } = 10;
-    public int? RemainingAnnualLeave { get; set; }
-    public int? RemainingSickLeave { get; set; }
+
+    // Leave Details
+    public EmployeeLeaveRecord EmployeeLeaveRecord { get; set; }
 }
