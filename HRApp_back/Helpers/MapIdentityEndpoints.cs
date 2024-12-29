@@ -1,4 +1,6 @@
+using HRApp_back.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRApp_back.Helpers;
 
@@ -6,8 +8,7 @@ public static class IdentityEndpoints
 {
     public static void MapIdentityEndpoints(this WebApplication app)
     {
-        // Login endpoint
-        app.MapPost("/api/auth/login", async (UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, LoginDto loginDto) =>
+        app.MapPost("/api/auth/login", async (UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, LoginDto loginDto, ApplicationDbContext dbContext) =>
         {
             var user = await userManager.FindByEmailAsync(loginDto.Email);
             if (user == null) return Results.NotFound("User not found.");
@@ -15,8 +16,20 @@ public static class IdentityEndpoints
             var result = await signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
             if (!result.Succeeded) return Results.Unauthorized();
 
-            return Results.Ok("Login successful.");
+            var roles = await userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault() ?? "Employee";
+
+            var employee = await dbContext.Employees.FirstOrDefaultAsync(e => e.Email == user.Email);
+
+            return Results.Ok(new
+            {
+                userId = user.Id, // Always return the ASP.NET Identity userId
+                employeeId = employee?.Id, // Return null if no employee record exists
+                role
+            });
         });
+
+
 
         // Register endpoint
         app.MapPost("/api/auth/register", async (UserManager<IdentityUser> userManager, RegisterDto registerDto) =>

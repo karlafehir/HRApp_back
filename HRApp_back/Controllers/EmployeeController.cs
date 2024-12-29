@@ -60,7 +60,7 @@ public class EmployeeController : ControllerBase
         };
 
         // Use a single, predefined password for all employees
-        var predefinedPassword = "CommonPassword123!";
+        var predefinedPassword = "Test123!";
         var result = await _userManager.CreateAsync(identityUser, predefinedPassword);
 
         if (!result.Succeeded)
