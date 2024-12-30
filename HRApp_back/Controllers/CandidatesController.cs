@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRApp_back.Controllers;
-
 [Route("api/[controller]")]
 [ApiController]
 public class CandidatesController : ControllerBase
@@ -39,6 +38,35 @@ public class CandidatesController : ControllerBase
     [HttpPost("AddCandidate")]
     public async Task<ActionResult<Candidate>> AddCandidate(Candidate candidate)
     {
+        await _unitOfWork.Candidates.AddAsync(candidate);
+        await _unitOfWork.SaveAsync();
+
+        return CreatedAtAction(nameof(GetCandidateById), new { id = candidate.Id }, candidate);
+    }
+
+    [HttpPost("AddCandidateWithFile")]
+    public async Task<ActionResult<Candidate>> AddCandidateWithFile([FromForm] Candidate candidate, IFormFile resumeFile)
+    {
+        if (resumeFile != null && resumeFile.Length > 0)
+        {
+            // Save the uploaded file
+            var uploadPath = Path.Combine("wwwroot", "resumes");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(resumeFile.FileName);
+            var filePath = Path.Combine(uploadPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await resumeFile.CopyToAsync(stream);
+            }
+
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            candidate.ResumeUrl = $"{baseUrl}/resumes/{fileName}";
+
+        }
+
         await _unitOfWork.Candidates.AddAsync(candidate);
         await _unitOfWork.SaveAsync();
 

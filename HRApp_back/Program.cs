@@ -34,6 +34,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
@@ -50,6 +51,7 @@ app.UseCors("AllowAllOrigins");
 // Enable Authentication and Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 // Seed roles and admin user during startup
 using (var scope = app.Services.CreateScope())
