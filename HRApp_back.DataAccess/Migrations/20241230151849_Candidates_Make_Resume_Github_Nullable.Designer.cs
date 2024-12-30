@@ -4,6 +4,7 @@ using HRApp_back.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRApp_back.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241230151849_Candidates_Make_Resume_Github_Nullable")]
+    partial class Candidates_Make_Resume_Github_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
