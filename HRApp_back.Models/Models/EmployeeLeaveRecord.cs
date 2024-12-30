@@ -10,7 +10,7 @@ public class EmployeeLeaveRecord
 
     [ForeignKey("Employee")]
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; }
+    // public Employee Employee { get; set; }
 
     // Leave Details
     public int? AnnualLeaveDays { get; set; } = 20;

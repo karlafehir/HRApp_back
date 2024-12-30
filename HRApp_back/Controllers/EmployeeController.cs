@@ -25,7 +25,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("GetAllEmployees")]
     public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
     {
-        var employees = await _unitOfWork.Employees.GetAllAsync(includeProperties: "Job");
+        var employees = await _unitOfWork.Employees.GetAllAsync(includeProperties: "Job,EmployeeLeaveRecord");
         return Ok(employees);
     }
 
@@ -33,7 +33,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("GetEmployeeById/{id}")]
     public async Task<ActionResult<Employee>> GetEmployeeById(int id)
     {
-        var employee = await _unitOfWork.Employees.GetByIdAsync(id, includeProperties: "Job");
+        var employee = await _unitOfWork.Employees.GetByIdAsync(id, includeProperties: "Job,EmployeeLeaveRecord");
 
         if (employee == null)
         {
@@ -47,6 +47,17 @@ public class EmployeeController : ControllerBase
     [HttpPost("AddEmployee")]
     public async Task<ActionResult<Employee>> AddEmployee(Employee employee)
     {
+        if (employee.EmployeeLeaveRecord == null)
+        {
+            employee.EmployeeLeaveRecord = new EmployeeLeaveRecord
+            {
+                AnnualLeaveDays = 20,
+                SickLeaveDays = 10,
+                RemainingAnnualLeave = 20,
+                RemainingSickLeave = 10
+            };
+        }
+
         // Add employee to the database
         await _unitOfWork.Employees.AddAsync(employee);
         await _unitOfWork.SaveAsync();

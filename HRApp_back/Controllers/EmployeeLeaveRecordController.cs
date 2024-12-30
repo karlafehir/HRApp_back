@@ -22,15 +22,13 @@ public class EmployeeLeaveRecordsController : ControllerBase
 
     // Get all Employee Leave Records
     [HttpGet("GetAllLeaveRecords")]
-    public async Task<ActionResult<IEnumerable<EmployeeLeaveRecordDTO>>> GetAllLeaveRecords()
+    public async Task<ActionResult<IEnumerable<EmployeeLeaveRecord>>> GetAllLeaveRecords()
     {
-        var leaveRecords = await _unitOfWork.EmployeeLeaveRecords.GetAllAsync(includeProperties: "Employee");
+        var leaveRecords = await _unitOfWork.EmployeeLeaveRecords.GetAllAsync();
 
-        var leaveRecordDtos = leaveRecords.Select(record => new EmployeeLeaveRecordDTO
+        var leaveRecordDtos = leaveRecords.Select(record => new EmployeeLeaveRecord
         {
             EmployeeId = record.EmployeeId,
-            EmployeeName = $"{record.Employee.FirstName} {record.Employee.LastName}",
-            Email = record.Employee.Email,
             AnnualLeaveDays = record.AnnualLeaveDays,
             SickLeaveDays = record.SickLeaveDays,
             RemainingAnnualLeave = record.RemainingAnnualLeave,
@@ -42,29 +40,23 @@ public class EmployeeLeaveRecordsController : ControllerBase
 
     // Get Employee Leave Record by ID
     [HttpGet("GetLeaveRecordById/{id}")]
-    public async Task<ActionResult<EmployeeLeaveRecordDTO>> GetLeaveRecordById(int id)
+    public async Task<ActionResult<EmployeeLeaveRecord>> GetLeaveRecordById(int id)
     {
-        var leaveRecord = await _unitOfWork.EmployeeLeaveRecords.GetByIdAsync(
-            id, 
-            includeProperties: "Employee"
-        );
+        var leaveRecord = await _unitOfWork.EmployeeLeaveRecords.GetByIdAsync(id);
 
         if (leaveRecord == null)
         {
             return NotFound("Leave record not found.");
         }
 
-        var leaveRecordDto = new EmployeeLeaveRecordDTO
+        var leaveRecordDto = new EmployeeLeaveRecord
         {
             EmployeeId = leaveRecord.EmployeeId,
-            EmployeeName = string.Concat(leaveRecord.Employee.FirstName ?? "", " ", leaveRecord.Employee.LastName ?? ""),
-            Email = leaveRecord.Employee.Email,
             AnnualLeaveDays = leaveRecord.AnnualLeaveDays,
             SickLeaveDays = leaveRecord.SickLeaveDays,
             RemainingAnnualLeave = leaveRecord.RemainingAnnualLeave,
             RemainingSickLeave = leaveRecord.RemainingSickLeave
         };
-
 
         return Ok(leaveRecordDto);
     }
