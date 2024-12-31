@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HRApp_back.DataAccess.Data;
 using HRApp_back.DataAccess.Repository.IRepository;
@@ -16,14 +17,11 @@ public class ProjectRepository : Repository<Project>, IProjectRepository
         _context = context;
     }
     
-    // [HttpGet("{projectId}/employees")]
-    // public async Task<IActionResult> GetEmployeesByProjectId(int projectId)
-    // {
-    //     var employees = await _context.Employees
-    //         .Where(e => e.ProjectId == projectId)
-    //         .ToListAsync();
-    //
-    //     return Ok(employees);
-    // }
+    public async Task<IEnumerable<Employee>> GetEmployeesByProjectId(int projectId)
+    {
+        return await _context.Employees
+            .Where(e => e.ProjectId == projectId)
+            .ToListAsync();
+    }
 
 }

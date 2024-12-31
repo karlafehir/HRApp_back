@@ -48,6 +48,19 @@ public class ProjectsController : ControllerBase
 
         return Ok(project);
     }
+    
+    [HttpGet("{projectId}/employees")]
+    public async Task<IActionResult> GetEmployeesByProjectId(int projectId)
+    {
+        var employees = await _unitOfWork.Projects.GetEmployeesByProjectId(projectId);
+        if (employees == null || !employees.Any())
+        {
+            return NotFound($"No employees found for project with ID {projectId}.");
+        }
+
+        return Ok(employees);
+    }
+
 
     // // GET: api/Projects/GetProjectByIdWithEmployees/{id}
     // [HttpGet("GetProjectByIdWithEmployees/{id}")]
