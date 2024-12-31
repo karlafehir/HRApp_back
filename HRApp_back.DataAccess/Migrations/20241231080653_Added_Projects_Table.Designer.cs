@@ -4,6 +4,7 @@ using HRApp_back.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRApp_back.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241231080653_Added_Projects_Table")]
+    partial class Added_Projects_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,11 +204,11 @@ namespace HRApp_back.DataAccess.Migrations
 
             modelBuilder.Entity("HRApp_back.Models.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -219,7 +222,7 @@ namespace HRApp_back.DataAccess.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId");
 
                     b.ToTable("Projects");
                 });

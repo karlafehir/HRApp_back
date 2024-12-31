@@ -17,5 +17,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<EmployeeLeaveRecord> EmployeeLeaveRecords { get; set; }
+    public DbSet<Project> Projects { get; set; }
+
     
 }

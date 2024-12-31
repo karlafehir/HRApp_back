@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork
     public IEmployeeRepository Employees { get; }
     public IDepartmentRepository Departments { get; }
     public IEmployeeLeaveRecordRepository EmployeeLeaveRecords { get; }
+    public IProjectRepository Projects { get; }
     
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -22,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
         Employees = new EmployeeRepository(_context);
         Departments = new DepartmentRepository(_context);
         EmployeeLeaveRecords = new EmployeeLeaveRecordRepository(_context);
+        Projects = new ProjectRepository(_context);
     }
 
     public async Task<int> SaveAsync()
