@@ -23,6 +23,11 @@ public class Employee
 
     // Department
     public int? DepartmentId { get; set; } 
+    
+    // Project
+    [ForeignKey("Project")]
+    public int? ProjectId { get; set; }
+    public Project? Project { get; set; }
 
     // Employment Details
     public string JobTitle { get; set; }

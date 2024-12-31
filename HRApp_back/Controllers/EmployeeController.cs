@@ -25,7 +25,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("GetAllEmployees")]
     public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
     {
-        var employees = await _unitOfWork.Employees.GetAllAsync(includeProperties: "Job,EmployeeLeaveRecord");
+        var employees = await _unitOfWork.Employees.GetAllAsync(includeProperties: "Job,EmployeeLeaveRecord,Project");
         return Ok(employees);
     }
 
@@ -33,7 +33,7 @@ public class EmployeeController : ControllerBase
     [HttpGet("GetEmployeeById/{id}")]
     public async Task<ActionResult<Employee>> GetEmployeeById(int id)
     {
-        var employee = await _unitOfWork.Employees.GetByIdAsync(id, includeProperties: "Job,EmployeeLeaveRecord");
+        var employee = await _unitOfWork.Employees.GetByIdAsync(id, includeProperties: "Job,EmployeeLeaveRecord,Project");
 
         if (employee == null)
         {
