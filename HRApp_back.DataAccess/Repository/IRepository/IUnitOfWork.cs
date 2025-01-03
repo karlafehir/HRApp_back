@@ -12,5 +12,6 @@ public interface IUnitOfWork : IDisposable
     IDepartmentRepository Departments { get; }
     IEmployeeLeaveRecordRepository EmployeeLeaveRecords { get; }
     IProjectRepository Projects { get; }
+    IPayrollRepository Payrolls { get; }
     Task<int> SaveAsync();
 }

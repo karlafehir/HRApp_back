@@ -14,6 +14,8 @@ public class UnitOfWork : IUnitOfWork
     public IDepartmentRepository Departments { get; }
     public IEmployeeLeaveRecordRepository EmployeeLeaveRecords { get; }
     public IProjectRepository Projects { get; }
+    public IPayrollRepository Payrolls { get; }
+
     
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -24,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
         Departments = new DepartmentRepository(_context);
         EmployeeLeaveRecords = new EmployeeLeaveRecordRepository(_context);
         Projects = new ProjectRepository(_context);
+        Payrolls = new PayrollRepository(_context);
     }
 
     public async Task<int> SaveAsync()
