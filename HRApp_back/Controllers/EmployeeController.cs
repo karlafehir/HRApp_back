@@ -87,7 +87,8 @@ public class EmployeeController : ControllerBase
 
         return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
     }
-    
+
+    // Get employees with roles
     [HttpGet("GetEmployeesWithRoles")]
     public IActionResult GetEmployeesWithRoles([FromQuery] string roleName = null)
     {
@@ -112,7 +113,51 @@ public class EmployeeController : ControllerBase
             return BadRequest("Employee ID mismatch.");
         }
 
-        _unitOfWork.Employees.Update(employee);
+        // Retrieve the existing employee with their leave record
+        var existingEmployee = await _unitOfWork.Employees.GetByIdAsync(id, includeProperties: "EmployeeLeaveRecord");
+
+        if (existingEmployee == null)
+        {
+            return NotFound("Employee not found.");
+        }
+
+        // Update employee details
+        existingEmployee.FirstName = employee.FirstName;
+        existingEmployee.LastName = employee.LastName;
+        existingEmployee.Email = employee.Email;
+        existingEmployee.Address = employee.Address;
+        existingEmployee.PhoneNumber = employee.PhoneNumber;
+        existingEmployee.DateOfHire = employee.DateOfHire;
+        existingEmployee.JobId = employee.JobId;
+        existingEmployee.DepartmentId = employee.DepartmentId;
+        existingEmployee.ProjectId = employee.ProjectId;
+        existingEmployee.Salary = employee.Salary;
+        existingEmployee.EmploymentStatus = employee.EmploymentStatus;
+
+        // Update or initialize the EmployeeLeaveRecord
+        if (employee.EmployeeLeaveRecord != null)
+        {
+            if (existingEmployee.EmployeeLeaveRecord != null)
+            {
+                // Update the existing leave record
+                existingEmployee.EmployeeLeaveRecord.AnnualLeaveDays = employee.EmployeeLeaveRecord.AnnualLeaveDays;
+                existingEmployee.EmployeeLeaveRecord.SickLeaveDays = employee.EmployeeLeaveRecord.SickLeaveDays;
+                existingEmployee.EmployeeLeaveRecord.RemainingAnnualLeave = employee.EmployeeLeaveRecord.RemainingAnnualLeave;
+                existingEmployee.EmployeeLeaveRecord.RemainingSickLeave = employee.EmployeeLeaveRecord.RemainingSickLeave;
+            }
+            else
+            {
+                // Add a new leave record
+                existingEmployee.EmployeeLeaveRecord = new EmployeeLeaveRecord
+                {
+                    AnnualLeaveDays = employee.EmployeeLeaveRecord.AnnualLeaveDays,
+                    SickLeaveDays = employee.EmployeeLeaveRecord.SickLeaveDays,
+                    RemainingAnnualLeave = employee.EmployeeLeaveRecord.RemainingAnnualLeave,
+                    RemainingSickLeave = employee.EmployeeLeaveRecord.RemainingSickLeave,
+                    EmployeeId = existingEmployee.Id
+                };
+            }
+        }
 
         try
         {

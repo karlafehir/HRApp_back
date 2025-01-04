@@ -9,7 +9,6 @@ public class Payroll
     public int Id { get; set; }
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; }
-    
     public DateTime Date { get; set; }
     public decimal Salary { get; set; }
     public decimal? Bonus { get; set; }
