@@ -87,6 +87,21 @@ public class EmployeeController : ControllerBase
 
         return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
     }
+    
+    [HttpGet("GetEmployeesWithRoles")]
+    public IActionResult GetEmployeesWithRoles([FromQuery] string roleName = null)
+    {
+        try
+        {
+            var employees = _unitOfWork.Employees.GetEmployeesWithRoles(roleName);
+            return Ok(employees);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception as needed
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+        }
+    }
 
     // Update an employee
     [HttpPut("UpdateEmployee/{id}")]
