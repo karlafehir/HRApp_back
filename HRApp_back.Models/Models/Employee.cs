@@ -30,7 +30,6 @@ public class Employee
     public Project? Project { get; set; }
 
     // Employment Details
-    public string JobTitle { get; set; }
     public decimal Salary { get; set; }
     public string EmploymentStatus { get; set; }
 
