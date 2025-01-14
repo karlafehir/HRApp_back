@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HRApp_back.DataAccess.Data;
 using HRApp_back.DataAccess.Repository.IRepository;
@@ -19,11 +20,16 @@ public class Repository<T> : IRepository<T> where T : class
         _dbSet = _context.Set<T>();
     }
     
-    public async Task<IEnumerable<T>> GetAllAsync(string? includeProperties = null)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)
     {
         IQueryable<T> query = _dbSet;
 
-        if (includeProperties != null)
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        if (!string.IsNullOrWhiteSpace(includeProperties))
         {
             foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {

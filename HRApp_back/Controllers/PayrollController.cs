@@ -36,41 +36,65 @@ namespace HRApp_back.Controllers
             return Ok(payroll);
         }
 
-        // POST: api/Payrolls/AddPayroll
-        [HttpPost("AddPayroll")]
-        public async Task<ActionResult<object>> AddPayroll(Payroll payroll)
+        [HttpPost("GenerateMonthlyPayroll")]
+        public async Task<IActionResult> GenerateMonthlyPayroll()
         {
-            if (payroll == null) 
-                return BadRequest("Payroll cannot be null.");
+            var currentDate = DateTime.UtcNow;
 
-            var employee = await _unitOfWork.Employees.GetByIdAsync(payroll.EmployeeId);
-            if (employee == null) 
-                return NotFound($"Employee with ID {payroll.EmployeeId} not found.");
+            // if (currentDate.Day != 14)
+            //     return BadRequest("Payroll generation is only allowed on the 14th of each month.");
 
-            payroll.Salary = employee.Salary; // No casting needed
-            await _unitOfWork.Payrolls.AddAsync(payroll);
+            // Check if payroll has already been generated for this month
+            var existingPayrolls = await _unitOfWork.Payrolls
+                .GetAllAsync(p => p.Date.Year == currentDate.Year && p.Date.Month == currentDate.Month);
+
+            if (existingPayrolls.Any())
+                return BadRequest("Payrolls for this month have already been generated.");
+
+            var employees = await _unitOfWork.Employees.GetAllAsync();
+            if (!employees.Any())
+                return NotFound("No employees found.");
+
+            foreach (var employee in employees)
+            {
+                var payroll = new Payroll
+                {
+                    EmployeeId = employee.Id,
+                    Date = currentDate,
+                    Salary = employee.Salary,
+                    Bonus = 0, // Default bonus
+                    IsComplete = false
+                };
+
+                await _unitOfWork.Payrolls.AddAsync(payroll);
+            }
+
             await _unitOfWork.SaveAsync();
 
-            var response = new
-            {
-                Payroll = new
-                {
-                    payroll.Id,
-                    payroll.EmployeeId,
-                    payroll.Date,
-                    payroll.Salary,
-                    payroll.Bonus,
-                    payroll.IsComplete
-                },
-                Employee = new
-                {
-                    employee.FirstName,
-                    employee.LastName,
-                    employee.Salary
-                }
-            };
+            return Ok();
+        }
+        
+        [HttpDelete("DeletePayrollsForCurrentMonth")]
+        public async Task<IActionResult> DeletePayrollsForCurrentMonth()
+        {
+            var currentDate = DateTime.UtcNow;
 
-            return CreatedAtAction(nameof(GetPayrollById), new { id = payroll.Id }, response);
+            var payrollsToDelete = await _unitOfWork.Payrolls
+                .GetAllAsync(p => p.Date.Year == currentDate.Year && p.Date.Month == currentDate.Month);
+
+            if (!payrollsToDelete.Any())
+            {
+                return NotFound("No payrolls found for the current month.");
+            }
+
+            foreach (var payroll in payrollsToDelete)
+            {
+                _unitOfWork.Payrolls.Delete(payroll);
+            }
+
+            await _unitOfWork.SaveAsync();
+
+            return Ok("All payrolls for the current month have been deleted.");
         }
         
         // PUT: api/Payrolls/UpdatePayroll/{id}
